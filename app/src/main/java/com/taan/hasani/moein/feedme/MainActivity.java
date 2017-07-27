@@ -55,21 +55,21 @@ public class MainActivity extends AppCompatActivity {
            InputStreamReader inputreader=new InputStreamReader(input);
            BufferedReader reader=new BufferedReader(inputreader);
            ////
-           int num_of_read_chars;
+           int num_of_chars;
 
            char[] charbuffered = new char[500];
 
            while (true) {
-               num_of_read_chars = reader.read(charbuffered);
-               if (num_of_read_chars < 0)
+               num_of_chars = reader.read(charbuffered);
+               if (num_of_chars < 0)
                    break;
-               if (num_of_read_chars > 0)
-                   stringBuilder.append(String.copyValueOf(charbuffered, 0, num_of_read_chars));
+               if (num_of_chars > 0)
+                   stringBuilder.append(String.copyValueOf(charbuffered, 0, num_of_chars));
            }
            reader.close();
 
        }catch (MalformedURLException e){
-           Log.e(TAG, "downloadXML: MalformedException"+e.getMessage());
+           Log.e(TAG, "downloadXML: Invalid URL"+e.getMessage());
        }catch (IOException e){
            Log.e(TAG,"downloadXML: IO Exception reading"+e.getMessage());
        }
