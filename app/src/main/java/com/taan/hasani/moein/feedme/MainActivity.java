@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        downloadData Downloader=new downloadData();
+        Downloader.execute("http://www.bartarinha.ir/fa/rss/allnews");
 
     }
 
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String rss=downloadXML(params[0]);
-            if(rss.equals(""))
+            if(rss==null)
                 Log.e(TAG, "doInBackground: Error downloading xml");
 
             return rss;
@@ -67,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
                    stringBuilder.append(String.copyValueOf(charbuffered, 0, num_of_chars));
            }
            reader.close();
+           return stringBuilder.toString();
 
        }catch (MalformedURLException e){
-           Log.e(TAG, "downloadXML: Invalid URL"+e.getMessage());
+           Log.e(TAG, "downloadXML: Invalid URL: "+e.getMessage());
        }catch (IOException e){
            Log.e(TAG,"downloadXML: IO Exception reading"+e.getMessage());
        }
-        return stringBuilder.toString();
-
+    return null;
     }
 
 
