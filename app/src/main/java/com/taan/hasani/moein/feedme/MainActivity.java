@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,25 +13,61 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG ="TAG" ;
+    private CustomListViewAdapter customListViewAdapter;
+    private ArrayList<Item> itemArrayList=new ArrayList<>();
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listView=(ListView)findViewById(R.id.listview);
+
+
         downloadData Downloader=new downloadData();
         Downloader.execute("http://www.bartarinha.ir/fa/rss/allnews");
-
     }
+
+
 
     //////////////////////
     private class downloadData extends AsyncTask<String, Void, String> {
+
+        public void refreshData() {
+
+//                itemArrayList.clear();
+
+//                for(int i=0;i<setsfromdb.size();i++){
+//
+//                    String Ddate=setsfromdb.get(i).getDate();
+//                    int Nnumbers=setsfromdb.get(i).getTimes();
+//                    int mId=setsfromdb.get(i).getSetId();
+//
+//                    set nSet=new set();
+//
+//                    nSet.setTimes(Nnumbers);
+//                    nSet.setSetId(mId);
+//                    nSet.setDate(Ddate);
+//
+//                    setList.add(nSet);
+//
+//                }
+//                dbh.close();
+            customListViewAdapter=new CustomListViewAdapter
+                    (MainActivity.this,R.layout.row,itemArrayList);
+            listView.setAdapter(customListViewAdapter);
+            customListViewAdapter.notifyDataSetChanged();
+
+        }
+
         @Override
         protected String doInBackground(String... params) {
             String rss=downloadXML(params[0]);
@@ -44,7 +81,13 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
             Parse_News parseNews=new Parse_News();
             parseNews.parse(s);
+
+            itemArrayList=parseNews.getItemsList();
+            refreshData();
+
         }
+
+
 
     private String downloadXML (String urlpath){
         StringBuilder stringBuilder=new StringBuilder();

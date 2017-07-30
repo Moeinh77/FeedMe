@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Parse_News {
     private final String TAG = "Parse_News";
-    ArrayList<Item> itemsList;
+    private ArrayList<Item> itemsList;
 
     public Parse_News() {
         itemsList=new ArrayList<>();

@@ -1,10 +1,12 @@
 package com.taan.hasani.moein.feedme;
 
+import java.io.Serializable;
+
 /**
  * Created by Moein on 7/27/2017.
  */
 
-public class Item {
+public class Item implements Serializable {
 
     String title;
     String description;
