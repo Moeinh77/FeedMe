@@ -1,6 +1,5 @@
 package com.taan.hasani.moein.feedme;
-
-import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -46,21 +45,56 @@ public class Parse_News {
                         current_item=new Item();
                         }
                         break;
+
                     case XmlPullParser.TEXT:
                         textvalue=xmlPullParser.getText();
+                        Log.v(TAG,"textvalue is: "+textvalue);
+
                         break;
+
                     case XmlPullParser.END_TAG:
-                        if ("item".equalsIgnoreCase(tagname)) {
-                            itemsList.add(current_item);
-                            inItem = false;
-                        } else if ("title".equalsIgnoreCase(tagname)) {
-                            current_item.setTitle(textvalue);
-                        } else if ("description".equalsIgnoreCase(tagname)) {
-                            current_item.setDescription(textvalue);
+                        if(inItem){
+                            if ("item".equalsIgnoreCase(tagname)) {
+
+                                itemsList.add(current_item);
+                                inItem = false;
+
+                            } else if ("title".equalsIgnoreCase(tagname)) {
+
+                                current_item.setTitle(textvalue);
+                                Log.v(TAG,"Title set ######");
+
+                            } else if ("description".equalsIgnoreCase(tagname)) {
+
+                                current_item.setDescription(textvalue);
+                                Log.v(TAG,"description set ######");
+
+                            }else if ("pubdate".equalsIgnoreCase(tagname)){
+
+                                current_item.setPubdate(textvalue);
+                                Log.v(TAG,"Date set ######");
+
+                            }
+                            else if ("enclosure".equalsIgnoreCase(tagname)){
+
+                                String image_url=xmlPullParser.getAttributeValue(null,"url");
+                                current_item.setImageURL(image_url);//not workin
+
+                            }
+                            else if ("link".equalsIgnoreCase(tagname)){
+
+                                current_item.setURL_ADDRESS(textvalue);
+
+                            }
                         }
                         break;
                 }
                 eventType = xmlPullParser.next();
+            }
+
+            for(Item i:itemsList){
+                Log.v(TAG,"########################");
+                Log.v(TAG,i.toString());
             }
         }catch(Exception e){
             status=false;

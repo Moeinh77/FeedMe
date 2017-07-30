@@ -10,6 +10,15 @@ public class Item {
     String description;
     String pubdate;
     String imageURL;
+    String URL_ADDRESS;
+
+    public String getURL_ADDRESS() {
+        return URL_ADDRESS;
+    }
+
+    public void setURL_ADDRESS(String URL_ADDRESS) {
+        this.URL_ADDRESS = URL_ADDRESS;
+    }
 
     public String getTitle() {
         return title;
@@ -46,7 +55,9 @@ public class Item {
     @Override
     public String toString() {
         return  "title=" + title + '\n' +
+                ", Description=" + description + '\n' +
                 ", pubdate=" + pubdate + '\n' +
+                ", URL_address=" + URL_ADDRESS + '\n' +
                 ", imageURL=" + imageURL + '\n' ;
     }
 }

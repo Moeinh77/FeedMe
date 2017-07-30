@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
             String rss=downloadXML(params[0]);
             if(rss==null)
                 Log.e(TAG, "doInBackground: Error downloading xml");
-
             return rss;
         }
 
         @Override
         protected void onPostExecute(String s) {
-
             super.onPostExecute(s);
+            Parse_News parseNews=new Parse_News();
+            parseNews.parse(s);
         }
 
     private String downloadXML (String urlpath){
